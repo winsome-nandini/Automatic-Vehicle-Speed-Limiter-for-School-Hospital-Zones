@@ -114,7 +114,7 @@ L --> D
 
 | Component                        | Quantity |
 | -------------------------------- | -------- |
-| Arduino Uno R3                   | 3        |
+| Arduino Uno R3                   | 1        |
 | 433 MHz RF Transmitter (FS1000A) | 2        |
 | 433 MHz RF Receiver Module       | 1        |
 | Hall Effect Sensor (A3144)       | 1        |
@@ -266,11 +266,11 @@ See the LICENSE file for details.
 
 # 9. Maintainers / Contacts
 
-| Name             | Role                       | Contact Information | GitHub Profile  |
-| ---------------- | -------------------------- | ------------------- | --------------- |
-| Nandini Agarwal  | Project Lead               | Add Email           | Add GitHub Link |
-| Team Member Name | Embedded Systems Developer | Add Email           | Add GitHub Link |
-| Mentor Name      | Faculty Mentor             | Add Email           | N/A             |
+| Name              | Role                       | Contact Information              | GitHub Profile                           |
+| ----------------- | -------------------------- | -------------------------------- | ---------------------------------------- |
+| Nandini Agarwal   | Project Member             | nandi.agrawal_ec23@gla.ac.in     | https://github.com/winsome-nandini       |
+| Ayush Vishwakarma | Embedded Systems Developer | ayush.vishwakarma_ec23@gla.ac.in | https://github.com/Ayush-vishwakarma-git |
+| Dr. Saurabh Singh | Faculty Mentor             | saurab.singh@gla.ac.in           | N/A                                      |
 
 ---
 
