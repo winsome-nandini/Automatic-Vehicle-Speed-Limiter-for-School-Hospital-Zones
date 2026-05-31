@@ -266,11 +266,11 @@ See the LICENSE file for details.
 
 # 9. Maintainers / Contacts
 
-| Name              | Role                       | Contact Information              | GitHub Profile                           |
-| ----------------- | -------------------------- | -------------------------------- | ---------------------------------------- |
-| Nandini Agarwal   | Project Member             | nandi.agrawal_ec23@gla.ac.in     | https://github.com/winsome-nandini       |
-| Ayush Vishwakarma | Embedded Systems Developer | ayush.vishwakarma_ec23@gla.ac.in | https://github.com/Ayush-vishwakarma-git |
-| Dr. Saurabh Singh | Faculty Mentor             | saurab.singh@gla.ac.in           | N/A                                      |
+| Name              | Role           | Contact Information              | GitHub Profile                           |
+| ----------------- | -------------- | -------------------------------- | ---------------------------------------- |
+| Nandini Agarwal   | Project Member | nandi.agrawal_ec23@gla.ac.in     | https://github.com/winsome-nandini       |
+| Ayush Vishwakarma | Project Member | ayush.vishwakarma_ec23@gla.ac.in | https://github.com/Ayush-vishwakarma-git |
+| Dr. Saurabh Singh | Faculty Mentor | saurab.singh@gla.ac.in           | N/A                                      |
 
 ---
 
