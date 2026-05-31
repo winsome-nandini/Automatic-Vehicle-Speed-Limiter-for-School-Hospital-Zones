@@ -269,7 +269,7 @@ See the LICENSE file for complete details.
 | ----------------- | -------------- | -------------------------------- | ---------------------------------------- |
 | Nandini Agarwal   | Project Member | nandi.agrawal_ec23@gla.ac.in     | https://github.com/winsome-nandini       |
 | Ayush Vishwakarma | Project Member | ayush.vishwakarma_ec23@gla.ac.in | https://github.com/Ayush-vishwakarma-git |
-| Dr. Saurabh Singh | Faculty Mentor | saurab.singh@gla.ac.in           | N/A                                      |
+| Dr. Saurabh Singh | Faculty Mentor | saurabh.singh@gla.ac.in          | N/A                                      |
 
 
 ---
