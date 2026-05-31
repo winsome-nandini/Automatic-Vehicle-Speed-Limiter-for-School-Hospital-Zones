@@ -1,48 +1,57 @@
-# Zone-Based Intelligent Vehicle Speed Limiter
+# Automatic Vehicle Speed Limiter for School and Hospital Zones
 
 ## 1. Project Overview
 
 ### Description
 
-The Zone-Based Intelligent Vehicle Speed Limiter is an embedded safety system designed to automatically regulate and enforce vehicle speed limits in sensitive areas such as schools, hospitals, residential zones, and construction sites.
+The Smart Zone-Based Vehicle Speed Limiter is an intelligent transportation safety system designed to automatically regulate vehicle speed in restricted areas such as schools, hospitals, residential zones, industrial campuses, and pedestrian-sensitive regions.
 
-The system uses wireless RF beacon transmitters installed at the entry and exit points of a restricted zone. When a vehicle enters the designated area, it receives the speed limit information wirelessly and automatically limits its speed to the prescribed value. The driver is prevented from exceeding the configured speed limit until the vehicle exits the restricted zone.
+The system utilizes RFID-based zone identification and a Silicon Labs SiWx917 wireless MCU platform to enforce speed limits without relying solely on driver compliance. RFID tags placed at the entry and exit points of a restricted area communicate zone information to the vehicle through an RC522 RFID reader. The SiWx917 controller processes the received zone information, continuously monitors vehicle speed using a Hall-effect sensor, and dynamically limits motor power whenever the vehicle exceeds the predefined speed limit.
 
-This project aims to improve road safety by reducing dependence on driver compliance and enabling automatic speed governance in high-risk areas.
+Additionally, the built-in Wi-Fi capability of the SiWx917 enables real-time cloud connectivity, allowing speed data, zone status, and operational analytics to be uploaded to a remote dashboard for monitoring and management.
 
 ### Target Users
 
-* Educational Institutions
-* Hospitals
+* Schools and Educational Campuses
+* Hospitals and Healthcare Facilities
 * Residential Communities
-* Industrial Campuses
-* Smart City Infrastructure Providers
-* Traffic Management Authorities
+* Industrial Parks
+* Smart City Transportation Systems
+* Municipal Traffic Authorities
 
 ### Motivation
 
-Despite the presence of speed limit signs, overspeeding remains a major cause of accidents near schools and hospitals. This project demonstrates how embedded systems and wireless communication can be used to actively enforce speed restrictions and improve public safety.
+Overspeeding in sensitive areas continues to be a major contributor to road accidents. Existing solutions such as speed signs and speed breakers rely heavily on driver awareness and compliance. This project demonstrates how embedded systems, RFID-based localization, and wireless connectivity can be combined to actively enforce speed limits and improve public safety.
 
 ---
 
 # 2. Technical Architecture
 
-## System Block Diagram
+## System Architecture
 
 ```mermaid
 flowchart LR
 
-A[Start Beacon Unit] -->|RF Signal: Speed Limit ON| B[Vehicle Receiver]
+A[RFID Tag - School Zone]
+--> B[RC522 RFID Reader]
 
-B --> C[Arduino Uno R3 Controller]
+B --> C[SiWx917 Wireless MCU]
 
-D[Hall Effect Sensor] --> C
+D[Hall Effect Sensor]
+--> C
 
-C --> E[L298N Motor Driver]
+C --> E[Speed Control Logic]
 
-E --> F[Vehicle Motor]
+E --> F[L298N Motor Driver]
 
-G[End Beacon Unit] -->|RF Signal: Speed Limit OFF| B
+F --> G[DC Motor / Vehicle]
+
+C --> H[Wi-Fi Module]
+
+H --> I[Cloud Dashboard]
+
+J[RFID Exit Tag]
+--> B
 ```
 
 ---
@@ -52,182 +61,174 @@ G[End Beacon Unit] -->|RF Signal: Speed Limit OFF| B
 ```mermaid
 flowchart TD
 
-A[Vehicle Starts] --> B[Receive RF Signal]
+A[Start Vehicle]
+--> B[Scan RFID Tag]
 
-B --> C{Zone Active?}
+B --> C{Zone Detected?}
 
 C -->|No| D[Normal Operation]
 
-C -->|Yes| E[Enable Speed Limiter]
+C -->|Yes| E[Load Speed Limit]
 
-E --> F[Read Vehicle Speed]
+E --> F[Read Hall Sensor Speed]
 
 F --> G{Speed > Limit?}
 
-G -->|No| H[Maintain Speed]
+G -->|No| H[Maintain Current PWM]
 
-G -->|Yes| I[Reduce PWM Output]
+G -->|Yes| I[Reduce Motor PWM]
 
-I --> J[Lock Speed]
+I --> J[Lock Vehicle Speed]
 
-J --> K{Exit Zone?}
+J --> K[Upload Data to Cloud]
 
-K -->|No| F
+K --> L{Exit Tag Detected?}
 
-K -->|Yes| L[Disable Speed Limiter]
+L -->|No| F
 
-L --> D
+L -->|Yes| M[Disable Speed Limit]
+
+M --> D
 ```
 
 ---
 
 # 3. Technologies Used
 
-## Wireless Communication
+## Wireless Technologies
 
-* 433 MHz RF Communication
-* Wireless Zone Detection
+* Wi-Fi 6
+* RFID-Based Zone Identification
 
-## Embedded Systems
+## Silicon Labs Technologies
 
-* Arduino Uno R3
-* Interrupt-Based Speed Monitoring
-* PWM Motor Control
+* Silicon Labs SiWx917 Wireless MCU
+* Gecko SDK (GSDK)
+* Simplicity Studio
 
 ## Programming Languages
 
-* C++
-* Arduino Framework
+* C
+* Embedded C++
+* Python (Dashboard and Analytics)
 
 ## Development Tools
 
-* Arduino IDE
+* Simplicity Studio
+* Visual Studio Code
 * GitHub
-* Fritzing (Circuit Design)
-* Draw.io / Mermaid (Architecture Diagrams)
+* Draw.io
+* Mermaid Diagrams
+
+## Communication Interfaces
+
+* SPI (RC522 RFID Reader)
+* GPIO
+* PWM
+* UART Debug Interface
 
 ---
 
 # 4. Hardware Components
 
-## Core Hardware
+## Silicon Labs Hardware
 
-| Component                        | Quantity |
-| -------------------------------- | -------- |
-| Arduino Uno R3                   | 1        |
-| 433 MHz RF Transmitter (FS1000A) | 2        |
-| 433 MHz RF Receiver Module       | 1        |
-| Hall Effect Sensor (A3144)       | 1        |
-| L298N Motor Driver               | 1        |
-| DC Motor                         | 1        |
-| Vehicle Chassis                  | 1        |
-| Power Supply/Battery Pack        | 1        |
+| Component               | Description              |
+| ----------------------- | ------------------------ |
+| SiWx917 Development Kit | Main Embedded Controller |
+| Integrated Wi-Fi Module | Cloud Connectivity       |
+| Onboard Debug Interface | Firmware Development     |
+
+---
+
+## Sensors and Expansion Modules
+
+| Component                  | Purpose                       |
+| -------------------------- | ----------------------------- |
+| RC522 RFID Reader          | Zone Identification           |
+| RFID Tags                  | Zone Entry and Exit Detection |
+| Hall Effect Sensor (A3144) | Speed Measurement             |
+| Buzzer Module              | Alert Notifications           |
 
 ---
 
 ## External Hardware
 
-| Component     | Purpose               |
-| ------------- | --------------------- |
-| Breadboard    | Circuit Prototyping   |
-| Jumper Wires  | Connections           |
-| Magnet        | Speed Detection       |
-| USB Cable     | Programming Arduino   |
-| Multimeter    | Testing and Debugging |
-| Soldering Kit | Permanent Assembly    |
+| Component           | Purpose                          |
+| ------------------- | -------------------------------- |
+| L298N Motor Driver  | Motor Speed Control              |
+| DC Motor            | Vehicle Propulsion               |
+| Toy Vehicle Chassis | Prototype Demonstration Platform |
+| USB Power Supply    | System Power Source              |
+| Breadboard          | Prototyping                      |
+| Jumper Wires        | Electrical Connections           |
 
 ---
 
 # 5. Software Components / Dependencies
 
-## Development Environment
+## Silicon Labs Dependencies
 
-| Software    | Version          |
-| ----------- | ---------------- |
-| Arduino IDE | 2.x or later     |
-| Git         | Latest           |
-| GitHub      | Cloud Repository |
+| Dependency           | Version                   |
+| -------------------- | ------------------------- |
+| Gecko SDK (GSDK)     | Latest Stable Release     |
+| Simplicity Studio    | Version 5.x               |
+| Wi-Fi SDK Components | Included with SiWx917 SDK |
 
 ---
 
-## Libraries
+## External Dependencies
 
-| Library                | Purpose               |
+| Software               | Purpose               |
 | ---------------------- | --------------------- |
-| RadioHead              | RF Communication      |
-| SPI                    | Communication Support |
-| Arduino Core Libraries | GPIO, PWM, Interrupts |
+| Git                    | Version Control       |
+| GitHub                 | Repository Hosting    |
+| Python                 | Dashboard Backend     |
+| MQTT Client (Optional) | Cloud Communication   |
+| Draw.io                | Architecture Diagrams |
 
 ---
 
 # 6. Features
 
-* Automatic speed limiting
-* Wireless zone activation
-* Wireless zone deactivation
-* Real-time speed monitoring
-* PWM-based motor control
-* Driver-independent speed enforcement
-* Low-cost implementation
-* Scalable architecture
+* Automatic Zone Detection
+* RFID-Based Speed Limit Activation
+* Dynamic Speed Limiting
+* Real-Time Speed Monitoring
+* PWM Motor Control
+* Wi-Fi Cloud Connectivity
+* Speed Analytics Dashboard
+* Configurable Zone Profiles
+* Exit Zone Detection and Recovery
+* Audible Warning Notifications
 
 ---
 
 # 7. Future Enhancements
 
-## GPS-Based Geofencing
+### GPS Geofencing
 
-Replace physical RF beacons with virtual GPS zones.
+Replace RFID infrastructure with GPS-based virtual zones.
 
-## IoT Connectivity
+### Vehicle-to-Infrastructure Communication
 
-Transmit speed and zone information to cloud dashboards.
+Implement direct communication between road infrastructure and vehicles.
 
-## Smart School Scheduling
+### AI-Based Traffic Analytics
 
-Activate speed restrictions automatically during school hours.
+Analyze driver behavior and traffic trends.
 
-## Emergency Vehicle Override
+### Emergency Vehicle Override
 
-Allow emergency vehicles to bypass restrictions.
+Allow authorized emergency vehicles to bypass restrictions.
 
-## Smart City Integration
+### Smart City Integration
 
-Connect with traffic management systems for city-wide deployment.
+Connect with city-wide transportation monitoring systems.
 
-## AI-Based Traffic Analytics
+### OTA Firmware Updates
 
-Analyze traffic patterns and speed violations.
-
----
-
-# 8. Repository Structure
-
-```text
-Zone-Based-Intelligent-Vehicle-Speed-Limiter/
-│
-├── README.md
-├── LICENSE
-│
-├── docs/
-│   ├── Project_Report.pdf
-│   ├── Circuit_Diagram.png
-│   ├── Flowchart.png
-│   └── Presentation.pptx
-│
-├── code/
-│   ├── Start_Beacon/
-│   ├── End_Beacon/
-│   └── Vehicle_Unit/
-│
-├── images/
-│   ├── hardware_setup.jpg
-│   ├── prototype.jpg
-│   └── testing.jpg
-│
-└── videos/
-    └── demo_video.mp4
-```
+Enable wireless firmware deployment using SiWx917 connectivity.
 
 ---
 
@@ -235,32 +236,30 @@ Zone-Based-Intelligent-Vehicle-Speed-Limiter/
 
 Contributions are welcome.
 
-Please:
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit changes
-4. Submit a pull request
+1. Fork the repository.
+2. Create a feature branch.
+3. Commit changes.
+4. Submit a pull request.
+5. Follow project coding standards and documentation guidelines.
 
 ---
 
 # Code of Conduct
 
-All contributors are expected to maintain a respectful and collaborative environment.
+All contributors are expected to:
 
-Please:
-
-* Be respectful
-* Provide constructive feedback
-* Follow ethical open-source practices
+* Be respectful and professional.
+* Encourage collaborative problem solving.
+* Provide constructive feedback.
+* Maintain a safe and inclusive development environment.
 
 ---
 
 # License
 
-This project is licensed under the MIT License.
+This project is licensed under the zlib License.
 
-See the LICENSE file for details.
+See the LICENSE file for complete details.
 
 ---
 
@@ -272,12 +271,6 @@ See the LICENSE file for details.
 | Ayush Vishwakarma | Project Member | ayush.vishwakarma_ec23@gla.ac.in | https://github.com/Ayush-vishwakarma-git |
 | Dr. Saurabh Singh | Faculty Mentor | saurab.singh@gla.ac.in           | N/A                                      |
 
+
 ---
 
-# Acknowledgements
-
-We sincerely thank our mentor for continuous guidance throughout the project.
-
-We also acknowledge the valuable feedback and technical insights received from professionals at Silicon Labs during project discussions and evaluations.
-
-Their suggestions helped shape the future scope and practical applicability of this work.
